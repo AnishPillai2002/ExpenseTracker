@@ -20,7 +20,7 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
-    //Home Page Rout Get Request
+    //Home Page Get Request
     @GetMapping("/")
     public String viewHomePage(Model model){
 
@@ -36,5 +36,19 @@ public class ExpenseController {
 
         //Returning index.html
         return "index";
+    }
+
+    //Add Expense Get Request
+    @GetMapping("/addExpense")
+    public String showAddExpensePage(Model model){
+
+        //Creating new Expense Object
+        Expense expense=new Expense();
+
+        //Adding it to model
+        model.addAttribute("expense",expense);
+
+        //Returning add expense page
+        return "add-expense";
     }
 }
