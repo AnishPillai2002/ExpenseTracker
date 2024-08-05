@@ -41,7 +41,7 @@ public class ExpenseController {
         return "index";
     }
 
-    //Add Expense Get Request
+    //Add Expense Page Get Request
     @GetMapping("/addExpense")
     public String showAddExpensePage(Model model){
 
@@ -62,13 +62,28 @@ public class ExpenseController {
         return "redirect:/";
     }
 
-    //Edit Expense Get Request
+    //Edit Expense Page Get Request
     @GetMapping("editExpense/{id}")
-    public String showUpdateExpensePage(@PathVariable("id") Long id,Model model){
+    public String showUpdateExpensePage(@PathVariable("id") long id,Model model){
         Expense expense=expenseService.getExpenseId(id);
         model.addAttribute("expense",expense);
         return "update-expense";
 
+    }
+
+    //Edit Expense Post Request
+    @PostMapping("/updateExpense/{id}")
+    public String updateExpense(@PathVariable("id") long id,@ModelAttribute("expense") Expense expense){
+        Expense existingExpense=expenseService.getExpenseId(id);
+
+        //updating
+        existingExpense.setDescription(expense.getDescription());
+        existingExpense.setAmount(expense.getAmount());
+
+        //saving new expense
+        expenseService.saveExpense(existingExpense);
+
+        return "redirect:/";
     }
 
 }
